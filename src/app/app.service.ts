@@ -17,7 +17,6 @@ export class StatusService {
   getStatus(): Observable<any> {
     return this.status.snapshotChanges().pipe(
       map((changes:any) => {
-        console.log('s',changes)
         return  changes.map((c:any) => {
           const key = c.payload.key;
           const value = c.payload.val();
@@ -34,10 +33,8 @@ export class StatusService {
     const updateObject:any = {};
   updateObject[key] = value;
 
-  // Define the path to the location you want to update
-  const path = 'test'; // Replace with the actual path in your database
+  const path = 'test';
 
-  // Update the value using the object and the path
   return this.db.object(path).update(updateObject);
   }
 }

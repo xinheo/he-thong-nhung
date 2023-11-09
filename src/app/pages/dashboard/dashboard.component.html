@@ -1,22 +1,57 @@
 <div class="w-full">
-  <div class="flex justify-end mt-4 mr-4">
-    <button class=" top-0 right-0 px-5 py-2 rounded-md bg-gray-700 text-white" (click)="signOut()">
-      Log out
-    </button>
+  <div class="flex items-center justify-end mt-4 mr-4 relative">
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 text-3xl font-semibold text-blue-500 text-center">
+      Hệ thống sấy khô
+    </div>
+    <div>
+      <button class=" top-0 right-0 px-5 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-400"
+        (click)="signOut()">
+        Đăng xuất
+      </button>
+    </div>
   </div>
-  <div class="mt-20 ml-10">
-    <button class="px-10 py-6 rounded-md bg-blue-500 text-white cursor-pointer mr-10" (click)="onClick()">Click
-      me</button>
-    <button class="px-10 py-6 rounded-md bg-blue-500 text-white cursor-pointer" (click)="onToggle()">Toggle led</button>
-
-    <!-- <h1>{{value | json}}</h1> -->
-
-    <label class="relative inline-flex items-center mb-4 cursor-pointer">
-      <input type="checkbox" value="" class="sr-only peer" [(ngModel)]="isTurnOnLed">
-      <div
-        class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+  <ng-container *ngIf="!isStartDrying; else dryingTemplate">
+    <div class="w-full flex justify-center mt-20">
+      <div class="w-full max-w-[500px] mx-6">
+        <div class="flex flex-col relative">
+          <span class="mb-3 inline-block">Nhập thời gian giấy</span>
+          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="10"
+            [(ngModel)]="timeDry">
+          <span class="absolute top-12 right-8 text-sm font-normal text-gray-800">( phút )</span>
+        </div>
+        <div class="flex flex-col mt-6 relative">
+          <span class="mb-3 inline-block">Nhập nhiệt độ sấy</span>
+          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="70"
+            [(ngModel)]="tempDry">
+          <span class="absolute top-12 right-8 text-sm font-normal text-gray-800">( °C )</span>
+        </div>
+        <div class="mt-10 flex justify-center">
+          <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg"
+            (click)="startDrySystem()">Bắt đầu sấy</button>
+        </div>
       </div>
-      <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle led</span>
-    </label>
-  </div>
+    </div>
+  </ng-container>
+
+
+  <ng-template #dryingTemplate>
+
+    <div class="w-full flex justify-center mt-20">
+      <div class="w-full max-w-[500px] mx-6">
+        <p>Thời gian sấy: {{timeCountDown}}</p>
+        <div class="my-6">
+          <p class="text-lg text-gray-900 font-semibold">Nhiệt độ : {{sensorsValue?.[2]?.value}}</p>
+        </div>
+        <div class="my-6">
+          <p class="text-lg text-gray-900 font-semibold">Độ ẩm : {{sensorsValue?.[1]?.value}}</p>
+        </div>
+
+        <div class="mt-10 flex justify-center">
+          <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg" (click)="endDrySystem()">Dừng
+            sấy</button>
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
 </div>

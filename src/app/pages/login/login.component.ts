@@ -10,6 +10,8 @@ export class LoginComponent {
   email: string = ''
   password: string = ''
 
+  visiblePopup = false
+
   constructor(private authService: AuthService){}
 
   isValidEmail(s: string) {
@@ -26,8 +28,15 @@ export class LoginComponent {
       return
     }
 
-    this.authService.signIn(this.email, this.password).then(() => {
-      console.log("SIGNIN")
+    this.authService.signIn(this.email, this.password).then((value) => {
+      if(value?.limitDevice){
+        this.visiblePopup = true
+      }
+      console.log("SIGNIN",value)
     })
+  }
+
+  hidePopup(){
+    this.visiblePopup = false
   }
 }

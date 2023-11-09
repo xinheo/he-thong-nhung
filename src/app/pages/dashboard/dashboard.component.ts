@@ -1,76 +1,65 @@
-import { Component } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { StatusService } from '../../app.service';
+import { Component,OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { SensorService } from 'src/app/services/sensor.service';
+import { SystemService } from 'src/app/services/system.service';
 
-interface IStatus {
-  isStart: boolean;
-  time: number;
-  isStop: boolean;
-  turnOnLed: boolean;
-  turnOnMachine: boolean;
-}
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  statusId: string  = ""
-  private dbPath = '/status';
+export class DashboardComponent implements OnDestroy{
+  isStartDrying = false
 
-  isTurnOnLed = false
+  timeDry:any = 0
+  tempDry:any = 0
+  sensorsValue: any = null
+  progress = 0;
+  timeCountDown = 0;
+  constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService) {
 
-  // value: IStatus = {
-  //   turnOnLed: false,
-  //   turnOnMachine: false,
-  //   isStart: false,
-  //   isStop: false,
-  //   time: 213123
-  // }
+    this.systemService.getStatus().subscribe((value) => {
+      console.log(value);
+      if (value?.[1]?.value) {
+        this.isStartDrying = true;
+        this.timeCountDown = value[3]?.value;
+      } else {
+        this.isStartDrying = false;
+      }
+    });
 
-  ledRef!: AngularFireList<any>
-  constructor(private db: AngularFireDatabase, private statusService: StatusService, private authService: AuthService) {
-    // this.ledRef = db.list(this.dbPath);
-    // this.ledRef.snapshotChanges().subscribe((value) => {
-    //   console.log(value)
-    // })
-    this.statusService.getStatus().subscribe((value) => {
+    this.sensorService.getStatus().subscribe((value) => {
       console.log(value)
-      this.statusId = value[0].key
+      this.sensorsValue = value
     })
   }
 
-  onClick(){
-
-    const status: IStatus  = {
-      isStart: false,
-      isStop: false,
-      turnOnLed: false,
-      turnOnMachine: false,
-      time: 10000000
+  startDrySystem() {
+    console.log(this.timeDry, this.tempDry);
+    if (!this.timeDry && !this.tempDry) {
+      alert('Nhập nhiệt độ hoặc thời gian không đúng');
+      return;
     }
 
-    // this.ledRef.push(status).then((value) => {
-    //   console.log("OK",value)
-    // })
+      this.systemService.startSystem({ timeDry: this.timeDry, tempDry: this.tempDry }).then(() => {
+        this.isStartDrying = true;
+      });
   }
-  onToggle(){
-    // const statusUpdated: IStatus = {...this.value, turnOnLed: this.isTurnOnLed}
 
-    const ledValue = this.isTurnOnLed ? 1 : 0
-
-      this.statusService.updateStatus('led', ledValue).then(() => {
-        console.log("Updated")
-      })
-    console.log(this.statusId)
-
+  endDrySystem(){
+    this.systemService.endSystem().then(() => {
+      this.isStartDrying = false
+    })
   }
 
   signOut(){
     this.authService.SignOut().then(() => {
       console.log("SIGN OUT")
     })
+  }
+
+  ngOnDestroy(): void {
   }
 }

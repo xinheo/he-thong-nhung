@@ -1,5 +1,5 @@
 <div class="w-full h-screen bg-gray-900 flex justify-center items-center">
-  <div class="w-[500px] h-auto shadow-xl border border-gray-500 rounded-xl py-6 px-10 bg-white">
+  <div class="w-[500px] h-auto shadow-xl border border-gray-500 rounded-xl py-6 px-10 mx-6 bg-white">
     <h1 class="text-center font-medium text-black text-3xl">Đăng nhập vào hệ thống</h1>
     <form class="mt-10">
       <div class="flex flex-col">
@@ -16,5 +16,12 @@
         <button class="mt-8 px-10 py-3 rounded-md bg-blue-500 text-white" (click)="signIn()">Đăng nhập</button>
       </div>
     </form>
+  </div>
+</div>
+<div class="fixed bg-[#00000080] top-0 left-0 w-full h-screen z-10" *ngIf="visiblePopup" (click)="hidePopup()">
+  <div
+    class="absolute z-[11] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] rounded-xl h-[160px] bg-white text-center">
+    <p class="mt-6 text-xl font-semibold px-6 text-center text-red-600">Hệ thống đang được người khác sử dụng</p>
+    <button class="px-6 py-2 mt-6 rounded-md bg-blue-400 text-white" (click)="hidePopup()">OK</button>
   </div>
 </div>

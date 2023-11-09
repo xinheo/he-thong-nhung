@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 
 
@@ -11,7 +12,15 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   user: any
-  constructor( private authFirebase: AngularFireAuth, private router: Router){
+  authDevice!:  AngularFireList<any>;
+  limitDevice: number = 0
+  constructor( private authFirebase: AngularFireAuth, private router: Router, private db: AngularFireDatabase){
+
+    this.authDevice = this.db.list('auth');
+
+    this.authDevice.valueChanges().subscribe((value) => {
+      this.limitDevice = value[0]
+    })
 
     this.authFirebase.authState.subscribe((result) => {
       if (result) {
@@ -26,12 +35,19 @@ export class AuthService {
   }
 
   signIn(email: string, password: string){
-    console.log("AA")
+
+    if(this.limitDevice === 1){
+      return Promise.resolve({limitDevice:this.limitDevice})
+    }
+
     return this.authFirebase
       .signInWithEmailAndPassword(email, password).then((result) =>{
+
+        this.db.object('auth').update({device: 1})
         this.user = result
         console.log(result)
         this.authFirebase.authState.subscribe((user) => {
+
           if (user) {
             this.router.navigate(['dashboard']);
           }
@@ -46,6 +62,8 @@ export class AuthService {
 
   SignOut() {
     return this.authFirebase.signOut().then(() => {
+
+      this.db.object('auth').update({device: 0})
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });
