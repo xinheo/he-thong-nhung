@@ -10,8 +10,9 @@
       </button>
     </div>
   </div>
-  <ng-container *ngIf="!isStartDrying; else dryingTemplate">
-    <div class="w-full flex justify-center mt-20">
+
+  <div class="w-full flex justify-center h-[calc(100%-40px)]">
+    <div class="w-1/3 flex justify-center mt-20">
       <div class="w-full max-w-[500px] mx-6">
         <div class="flex flex-col relative">
           <span class="mb-3 inline-block">Nhập thời gian giấy</span>
@@ -27,18 +28,25 @@
         </div>
         <div class="mt-10 flex justify-center">
           <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg"
-            (click)="startDrySystem()">Bắt đầu sấy</button>
+            [ngClass]="isDisabledButtonStart ? 'pointer-events-none opacity-40' : ''" (click)="startDrySystem()">Bắt đầu
+            sấy</button>
         </div>
       </div>
     </div>
-  </ng-container>
-
-
-  <ng-template #dryingTemplate>
-
-    <div class="w-full flex justify-center mt-20">
-      <div class="w-full max-w-[500px] mx-6">
-        <p>Thời gian sấy: {{timeCountDown}}</p>
+    <div class="w-2/3 flex justify-center mt-20 border border-gray-300 rounded-xl mx-10">
+      <div class="w-full mx-10 pb-10">
+        <h1 class="font-semibold text-black text-xl text-center mt-3">ROOM 1</h1>
+        <div>
+          <div class="my-6">
+            <p class="text-lg text-gray-900 font-semibold">Thời gian thiết lập: {{system?.[2]?.value}}</p>
+          </div>
+          <div class="my-6">
+            <p class="text-lg text-gray-900 font-semibold">Nhiệt độ thiết lập: {{system?.[3]?.value}}</p>
+          </div>
+        </div>
+        <div class="my-6">
+          <p class="text-lg text-gray-900 font-semibold">Thời gian sấy : {{timeDisplay}}</p>
+        </div>
         <div class="my-6">
           <p class="text-lg text-gray-900 font-semibold">Nhiệt độ : {{sensorsValue?.[2]?.value}}</p>
         </div>
@@ -52,6 +60,6 @@
         </div>
       </div>
     </div>
+  </div>
 
-  </ng-template>
 </div>
