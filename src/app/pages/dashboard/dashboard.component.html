@@ -1,6 +1,6 @@
 <div class="w-full">
   <div class="flex items-center justify-end mt-4 mr-4 relative">
-    <div class="absolute top-4 left-1/2 -translate-x-1/2 text-3xl font-semibold text-blue-500 text-center">
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 text-3xl font-bold text-blue-500 text-center">
       Hệ thống sấy khô
     </div>
     <div>
@@ -38,25 +38,54 @@
         <h1 class="font-semibold text-black text-xl text-center mt-3">ROOM 1</h1>
         <div>
           <div class="my-6">
-            <p class="text-lg text-gray-900 font-semibold">Thời gian thiết lập: {{system?.[2]?.value}}</p>
+            <p class="text-lg text-blue-900 font-semibold">Thời gian thiết lập: {{timeDryDisplay }} phút</p>
           </div>
           <div class="my-6">
-            <p class="text-lg text-gray-900 font-semibold">Nhiệt độ thiết lập: {{system?.[3]?.value}}</p>
+            <p class="text-lg text-blue-900 font-semibold">Nhiệt độ thiết lập: {{system?.[2]?.value}} °C</p>
           </div>
         </div>
         <div class="my-6">
           <p class="text-lg text-gray-900 font-semibold">Thời gian sấy : {{timeDisplay}}</p>
         </div>
         <div class="my-6">
-          <p class="text-lg text-gray-900 font-semibold">Nhiệt độ : {{sensorsValue?.[2]?.value}}</p>
+          <p class="text-lg text-gray-900 font-semibold">Nhiệt độ : {{sensorsValue?.[4]?.value}}</p>
         </div>
         <div class="my-6">
-          <p class="text-lg text-gray-900 font-semibold">Độ ẩm : {{sensorsValue?.[1]?.value}}</p>
+          <p class="text-lg text-gray-900 font-semibold">Độ ẩm : {{sensorsValue?.[3]?.value}}</p>
         </div>
-
-        <div class="mt-10 flex justify-center">
-          <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg" (click)="endDrySystem()">Dừng
+        <div class="flex items-center justify-center gap-20">
+          <label class="relative inline-flex items-center mb-5 cursor-pointer">
+            <input type="checkbox" [ngModel]="sensorsValue?.[1]?.value" class="sr-only peer"
+              [disabled]="system?.[0]?.value" (ngModelChange)="changeDryDevice($event)">
+            <div
+              class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Động cơ sấy</span>
+          </label>
+          <label class="relative inline-flex items-center mb-5 cursor-pointer">
+            <input type="checkbox" [disabled]="system?.[0]?.value" [ngModel]="sensorsValue?.[2]?.value"
+              class="sr-only peer" (ngModelChange)="changeFanDevice($event)">
+            <div
+              class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Quạt</span>
+          </label>
+        </div>
+        <div class="mt-2 flex justify-center">
+          <button [ngClass]="!isDisabledButtonStart ? 'pointer-events-none opacity-40' : ''"
+            class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg" (click)="endDrySystem()">Dừng
             sấy</button>
+        </div>
+        <div>
+          <label class="relative inline-flex items-center mb-5 cursor-pointer">
+            <input type="checkbox" [ngModel]="system?.[0]?.value" class="sr-only peer"
+              (ngModelChange)="changeIsAutoSystem($event)">
+            <div
+              class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Tự động (Tắt tự động để điều khiển
+              động cơ)</span>
+          </label>
         </div>
       </div>
     </div>

@@ -43,4 +43,8 @@ export class SystemService {
   updateTimeDry(time:any){
     return this.db.object('system').update({timeDry: time})
   }
+
+  updateIsAuto(isAuto:any){
+    return this.db.object('system').update({isAuto: isAuto})
+  }
 }

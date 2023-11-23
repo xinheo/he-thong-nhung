@@ -22,6 +22,7 @@ export class DashboardComponent implements OnDestroy{
   countdownInterval: any;
   timeDisplay = ''
   system: any
+  timeDryDisplay = 0
 
   constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService) {
 
@@ -50,7 +51,6 @@ export class DashboardComponent implements OnDestroy{
     this.countdownInterval = setInterval(() => {
       const currentTime = new Date().getTime();
       const timeDifference = this.timeCountDown - currentTime;
-
       if (timeDifference <= 0) {
         this.endDrySystem()
         clearInterval(this.countdownInterval);
@@ -69,12 +69,27 @@ export class DashboardComponent implements OnDestroy{
     clearInterval(this.countdownInterval);
   }
 
+  changeDryDevice(value: any){
+    console.log("changeDryDevice",value)
+    this.sensorService.updateSensor('dryDevice',value).then()
+  }
+
+  changeFanDevice(value: any){
+    console.log("changeFanDevice",value)
+    this.sensorService.updateSensor('fanDevice',value).then()
+  }
+
+  changeIsAutoSystem(value:any){
+    this.systemService.updateIsAuto(value).then()
+  }
+
   startDrySystem() {
     console.log(this.timeDry, this.tempDry);
     if (!this.timeDry && !this.tempDry) {
       alert('Nhập nhiệt độ hoặc thời gian không đúng');
       return;
     }
+    this.timeDryDisplay = this.timeDry
 
       const time = new Date().getTime() + 1000*this.timeDry*60
 
@@ -84,6 +99,8 @@ export class DashboardComponent implements OnDestroy{
   }
 
   endDrySystem(){
+    this.timeDryDisplay = 0
+
     this.systemService.endSystem().then(() => {
       this.isStartDrying = false
     })
