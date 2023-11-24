@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,7 +13,11 @@ export class LoginComponent {
 
   visiblePopup = false
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService,private router: Router){
+    if(this.authService.isLoggedIn){
+      this.router.navigate(['dashboard'])
+    }
+  }
 
   isValidEmail(s: string) {
     return /^[^@]+@[^@]+\.[^@]+$/.test(s)

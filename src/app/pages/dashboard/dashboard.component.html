@@ -11,47 +11,68 @@
     </div>
   </div>
 
-  <div class="w-full flex justify-center h-[calc(100%-40px)]">
-    <div class="w-1/3 flex justify-center mt-20">
-      <div class="w-full max-w-[500px] mx-6">
-        <div class="flex flex-col relative">
-          <span class="mb-3 inline-block">Nhập thời gian giấy</span>
+  <div class="w-full flex justify-center flex-col">
+    <div class="flex flex-col justify-center mt-14 py-8 mx-6">
+      <div class="mx-6 flex items-center gap-4">
+        <div class="w-1/4 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
+          <img src="/assets/images/high-temperature.png" alt="" class="w-10 h-10">
+          <span class="mb-3 inline-block text-lg font-medium">Nhập thời gian giấy tối đa</span>
+          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="70"
+            [(ngModel)]="timeDry">
+          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
+        </div>
+        <div class="w-1/4 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
+          <img src="/assets/images/low-temperature.png" alt="" class="w-10 h-10">
+          <span class="mb-3 inline-block text-lg font-medium">Nhập nhiệt độ sấy tối thiểu</span>
+          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="50"
+            [(ngModel)]="tempDry">
+          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
+        </div>
+        <div class="w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
+          <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10">
+          <span class="mb-3 inline-block text-lg font-medium">Nhập thời gian sấy</span>
           <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="10"
             [(ngModel)]="timeDry">
-          <span class="absolute top-12 right-8 text-sm font-normal text-gray-800">( phút )</span>
-        </div>
-        <div class="flex flex-col mt-6 relative">
-          <span class="mb-3 inline-block">Nhập nhiệt độ sấy</span>
-          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full" placeholder="70"
-            [(ngModel)]="tempDry">
-          <span class="absolute top-12 right-8 text-sm font-normal text-gray-800">( °C )</span>
-        </div>
-        <div class="mt-10 flex justify-center">
-          <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg"
-            [ngClass]="isDisabledButtonStart ? 'pointer-events-none opacity-40' : ''" (click)="startDrySystem()">Bắt đầu
-            sấy</button>
+          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( phút )</span>
         </div>
       </div>
+      <div class="mt-10 flex justify-center">
+        <button class="px-10 py-3 rounded-md bg-blue-600 text-white font-medium text-lg"
+          [ngClass]="isDisabledButtonStart ? 'pointer-events-none opacity-40' : ''" (click)="startDrySystem()">Bắt đầu
+          sấy</button>
+      </div>
     </div>
-    <div class="w-2/3 flex justify-center mt-20 border border-gray-300 rounded-xl mx-10">
-      <div class="w-full mx-10 pb-10">
-        <h1 class="font-semibold text-black text-xl text-center mt-3">ROOM 1</h1>
-        <div>
-          <div class="my-6">
-            <p class="text-lg text-blue-900 font-semibold">Thời gian thiết lập: {{timeDryDisplay }} phút</p>
+    <div class="flex justify-center mt-5 border border-gray-300 rounded-xl mx-10 mb-20">
+      <div class="w-full mx-10 mb-10">
+        <h1 class="font-semibold text-black text-xl text-center mt-3">Thông tin trong kho sấy hiện tại</h1>
+        <div class="flex items-center justify-center gap-10">
+          <div class="my-6 p-4 rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <p class="text-lg text-black font-semibold">Thời gian thiết lập</p>
+            <img src="/assets/images/chronometer.png" alt="" class="w-16 h-16 my-4">
+            <span class="text-xl text-black font-semibold">{{timeDryDisplay }} phút</span>
           </div>
-          <div class="my-6">
-            <p class="text-lg text-blue-900 font-semibold">Nhiệt độ thiết lập: {{system?.[2]?.value}} °C</p>
+          <div class="my-6 p-4 rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <p class="text-lg text-black font-semibold">Nhiệt độ thiết lập</p>
+            <img src="/assets/images/cur-temperature.png" alt="" class="w-16 h-16 my-4">
+            <span class="text-xl text-black font-semibold">{{system?.[2]?.value}} °C</span>
           </div>
         </div>
-        <div class="my-6">
-          <p class="text-lg text-gray-900 font-semibold">Thời gian sấy : {{timeDisplay}}</p>
-        </div>
-        <div class="my-6">
-          <p class="text-lg text-gray-900 font-semibold">Nhiệt độ : {{sensorsValue?.[4]?.value}}</p>
-        </div>
-        <div class="my-6">
-          <p class="text-lg text-gray-900 font-semibold">Độ ẩm : {{sensorsValue?.[3]?.value}}</p>
+        <div class="flex items-stretch gap-10 justify-center">
+          <div class="my-6 p-4 w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <p class="text-lg text-black font-semibold">Thời gian sấy còn lại</p>
+            <img src="/assets/images/stopwatch.png" alt="" class="w-16 h-16 my-4">
+            <span class="text-xl text-black font-semibold">{{timeDisplay }}</span>
+          </div>
+          <div class="my-6 p-4 w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <p class="text-lg text-black font-semibold">Nhiệt độ hiện tại</p>
+            <img src="/assets/images/temperature.png" alt="" class="w-16 h-16 my-4">
+            <span class="text-xl text-black font-semibold">{{sensorsValue?.[4]?.value}}</span>
+          </div>
+          <div class="my-6 p-4 w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <p class="text-lg text-black font-semibold">Độ ẩm hiện tại</p>
+            <img src="/assets/images/humidity.png" alt="" class="w-16 h-16 my-4">
+            <span class="text-xl text-black font-semibold">{{sensorsValue?.[5]?.value}}</span>
+          </div>
         </div>
         <div class="flex items-center justify-center gap-20">
           <label class="relative inline-flex items-center mb-5 cursor-pointer">
