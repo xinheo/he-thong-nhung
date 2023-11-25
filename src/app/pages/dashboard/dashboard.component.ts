@@ -1,4 +1,5 @@
 import { AfterViewInit, Component,ElementRef,OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SensorService } from 'src/app/services/sensor.service';
 import { SystemService } from 'src/app/services/system.service';
@@ -12,6 +13,7 @@ import { SystemService } from 'src/app/services/system.service';
 })
 export class DashboardComponent implements OnDestroy, AfterViewInit{
   @ViewChild('audioFire') audioFire!: ElementRef
+  @ViewChild('content') contentEl!: ElementRef
   isStartDrying = false
 
   timeDry:any = null
@@ -30,7 +32,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   visiblePopupFire = false
   visiblePopupSignOut= false
 
-  constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService) {
+  constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService, private router: Router) {
 
     this.systemService.getStatus().subscribe((value) => {
       // console.log(value);
@@ -111,6 +113,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
       this.systemService.startSystem({ timeDry: time, tempDry: this.tempDry }).then(() => {
         this.isStartDrying = true;
+        this.contentEl?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' })
       });
   }
 

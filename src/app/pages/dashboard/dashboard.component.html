@@ -13,7 +13,7 @@
   </div>
 
   <div class="w-full flex justify-center flex-col">
-    <div class="flex flex-col justify-center mt-14 pt-0 pb-6 md:py-8 mx-6">
+    <div class="flex flex-col justify-center mt-20 md:mt-14 pt-0 pb-6 md:py-8 mx-6">
       <div class="mx-6 flex flex-col md:flex-row items-center gap-4">
         <div class="w-full md:w-1/4 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
           <img src="/assets/images/high-temperature.png" alt="" class="w-10 h-10">
@@ -43,18 +43,18 @@
           sấy</button>
       </div>
     </div>
-    <div class="mt-5 rounded-xl mx-2 md:mx-10 mb-20" *ngIf="isStartDrying">
+    <div class="mt-5 rounded-xl mx-2 md:mx-10 mb-20" *ngIf="isStartDrying" id="content">
       <div class="w-full mb-10 flex flex-col md:flex-row">
         <div class="w-full md:w-1/3 md:pl-5 md:border-r md:border-gray-100">
           <h1 class="font-semibold text-black text-3xl text-center mt-5">Thông tin tiết lập</h1>
           <div class="px-5 md:gap-10 flex md:block justify-between md:justify-start items-stretch">
             <div class="my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center mr-5 md:mr-0">
-              <p class="text-sm md:text-lg text-black font-semibold">Thời gian thiết lập</p>
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Thời gian thiết lập</p>
               <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10 md:w-16 md:h-16 my-4">
               <span class="text-xl text-black font-semibold">{{timeDryDisplay }} phút</span>
             </div>
             <div class="my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center">
-              <p class="text-sm md:text-lg text-black font-semibold">Nhiệt độ thiết lập</p>
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Nhiệt độ thiết lập</p>
               <img src="/assets/images/cur-temperature.png" alt="" class="w-10 h-10 md:w-16 md:h-16 my-4">
               <span class="text-xl text-black font-semibold">{{system?.[2]?.value}} °C</span>
             </div>
@@ -64,40 +64,42 @@
           <h1 class="font-semibold text-black text-3xl text-center mt-5">Thông tin hệ thống hiện tại</h1>
           <div class="flex items-stretch gap-4 md:gap-10 justify-center flex-wrap mt-5 md:mt-0">
             <div
-              class="mb-0 md:my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
-              <p class="text-sm md:text-lg text-black font-semibold">Thời gian sấy còn lại</p>
+              class="mb-0 md:my-6 p-4 w-[120px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Thời gian sấy còn lại</p>
               <img src="/assets/images/stopwatch.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4">
               <span class="text-xl text-black font-semibold">{{timeDisplay }}</span>
             </div>
             <div
-              class="mb-0 md:my-6 p-4 w-[150px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
-              <p class="text-sm md:text-lg text-black font-semibold">Nhiệt độ hiện tại</p>
+              class="mb-0 md:my-6 p-4 w-[120px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Nhiệt độ hiện tại</p>
               <img src="/assets/images/temperature.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4">
-              <span class="text-xl text-black font-semibold">{{sensorsValue?.[4]?.value}}</span>
+              <span class="text-xl text-black font-semibold">{{sensorsValue?.[4]?.value}} °C</span>
             </div>
             <div
-              class="mt-2 md:my-6 p-4 w-[150px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
-              <p class="text-sm md:text-lg text-black font-semibold">Độ ẩm hiện tại</p>
+              class="mt-2 md:my-6 p-4 w-[120px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Độ ẩm hiện tại</p>
               <img src="/assets/images/humidity.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4">
-              <span class="text-xl text-black font-semibold">{{sensorsValue?.[5]?.value}}</span>
+              <span class="text-xl text-black font-semibold">{{sensorsValue?.[5]?.value}} phút</span>
             </div>
           </div>
-          <div class="flex justify-center mt-5">
+          <div class="flex justify-center mt-10  md:mt-5">
             <label class="relative inline-flex items-center mb-5 cursor-pointer">
               <input type="checkbox" [ngModel]="system?.[0]?.value" class="sr-only peer"
                 (ngModelChange)="changeIsAutoSystem($event)">
               <div
                 class="w-16 md:w-20 h-8 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-8 md:peer-checked:after:translate-x-12 rtl:peer-checked:after:-translate-x-8 md:rtl:peer-checked:after:-translate-x-12 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-7 after:h-7 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
               </div>
-              <span class="ms-3 text-sm md:text-xl font-medium text-gray-900">Tự động (Tắt tự động để điều khiển
-                động cơ)</span>
+              <span class="ms-3 text-sm md:text-xl font-medium text-gray-900">Tự động</span>
             </label>
+          </div>
+          <div class="ms-3 text-sm md:text-xl font-medium text-gray-900 text-center">
+            Tắt tự động để tự điều khiển các động cơ
           </div>
           <div class="flex items-stretch justify-center gap-4 md:gap-20">
             <div class="my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
               <img src="/assets/images/cogwheel-setting.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4"
                 [class.animate-spin]="sensorsValue?.[1]?.value">
-              <p class="text-sm md:text-lg text-black font-semibold my-2">Bật/tắt động cơ sấy</p>
+              <p class="text-sm md:text-lg text-black font-semibold my-2 text-center">Bật/tắt động cơ sấy</p>
               <label class="relative inline-flex items-center mb-5 cursor-pointer"
                 [ngClass]="system?.[0]?.value ? 'opacity-60 pointer-events-none' : 'opacity-100 pointer-events-auto'">
                 <input type="checkbox" [ngModel]="sensorsValue?.[1]?.value" class="sr-only peer"
@@ -144,7 +146,7 @@
 
 <div class="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)]" *ngIf="visiblePopupConfirm" (click)="hidePopup()">
   <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[400px] w-full rounded-md bg-white shadow-md py-5">
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[300px] md:max-w-[400px] w-full rounded-md bg-white shadow-md py-5">
     <p class="text-center mt-6 text-lg text-black font-semibold">Bạn có chắc chắn muốn dừng hệ thống</p>
     <div class="flex items-center gap-10 justify-center mt-4">
       <button class="px-6 py-2 rounded-md bg-gray-100 border border-gray-400 text-black"
@@ -157,7 +159,7 @@
 <div class="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)]" *ngIf="visiblePopupSignOut"
   (click)="hidePopupSignOut()">
   <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[400px] w-full rounded-md bg-white shadow-md py-5">
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[300px] md:max-w-[400px] w-full rounded-md bg-white shadow-md py-5">
     <p class="text-center mt-6 text-lg text-black font-semibold">Bạn có chắc chắn muốn đăng xuất?</p>
     <div class="flex items-center gap-10 justify-center mt-4">
       <button class="px-6 py-2 rounded-md bg-gray-100 border border-gray-400 text-black"
@@ -169,7 +171,7 @@
 
 <div class="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)]" *ngIf="visiblePopupFire">
   <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[400px] w-full rounded-lg bg-white shadow-md py-8 px-4">
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[300px] md:max-w-[400px] w-full rounded-lg bg-white shadow-md py-8 px-4">
     <div class="flex justify-center flex-col items-center">
       <p class="text-center text-3xl text-red-500 font-bold">Hệ thống của bạn đang có nguy cơ cháy!</p>
       <img src="/assets/images/fire.png" alt="" class="w-32 h-32 my-4">
