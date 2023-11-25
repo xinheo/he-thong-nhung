@@ -1,4 +1,4 @@
-import { Component,OnDestroy } from '@angular/core';
+import { AfterViewInit, Component,ElementRef,OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { SensorService } from 'src/app/services/sensor.service';
 import { SystemService } from 'src/app/services/system.service';
@@ -10,7 +10,8 @@ import { SystemService } from 'src/app/services/system.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnDestroy{
+export class DashboardComponent implements OnDestroy, AfterViewInit{
+  @ViewChild('audioFire') audioFire!: ElementRef
   isStartDrying = false
 
   timeDry:any = null
@@ -21,14 +22,18 @@ export class DashboardComponent implements OnDestroy{
   timeCountDown = 0;
   isDisabledButtonStart = false
   countdownInterval: any;
-  timeDisplay = ''
+  timeDisplay = '0'
   system: any
   timeDryDisplay = 0
+
+  visiblePopupConfirm =  false
+  visiblePopupFire = false
+  visiblePopupSignOut= false
 
   constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService) {
 
     this.systemService.getStatus().subscribe((value) => {
-      console.log(value);
+      // console.log(value);
       this.system = value
       if (value?.[1]?.value) {
         this.isStartDrying = true;
@@ -43,9 +48,15 @@ export class DashboardComponent implements OnDestroy{
     });
 
     this.sensorService.getStatus().subscribe((value) => {
-      console.log(value)
+      // console.log(value)
       this.sensorsValue = value
     })
+  }
+
+
+  ngAfterViewInit(): void {
+    // console.log("ASD", this.audioFire.nativeElement)
+    // this.audioFire.nativeElement.play()
   }
 
   startCountdown() {
@@ -71,12 +82,12 @@ export class DashboardComponent implements OnDestroy{
   }
 
   changeDryDevice(value: any){
-    console.log("changeDryDevice",value)
+    // console.log("changeDryDevice",value)
     this.sensorService.updateSensor('dryDevice',value).then()
   }
 
   changeFanDevice(value: any){
-    console.log("changeFanDevice",value)
+    // console.log("changeFanDevice",value)
     this.sensorService.updateSensor('fanDevice',value).then()
   }
 
@@ -85,12 +96,12 @@ export class DashboardComponent implements OnDestroy{
   }
 
   startDrySystem() {
-    console.log(this.timeDry, this.tempDry);
+    // console.log(this.timeDry, this.tempDry);
     if(this.tempDry - this.tempDryMin < 0 ){
       alert('Nhập nhiệt độ sai!');
       return;
     }
-    if (!this.timeDry && !this.tempDry) {
+    if (!this.timeDry || !this.tempDry) {
       alert('Nhập nhiệt độ hoặc thời gian không đúng!');
       return;
     }
@@ -117,4 +128,24 @@ export class DashboardComponent implements OnDestroy{
     })
   }
 
+
+  hidePopup(){
+    this.visiblePopupConfirm = false
+  }
+
+  showPopup(){
+    this.visiblePopupConfirm = true
+  }
+  hidePopupFire() {
+    this.visiblePopupFire = false
+    this.audioFire.nativeElement.pause()
+  }
+
+  hidePopupSignOut(){
+    this.visiblePopupSignOut = false
+  }
+
+  showPopupSignOut(){
+    this.visiblePopupSignOut = true
+  }
 }
