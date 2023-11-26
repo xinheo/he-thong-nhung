@@ -3,13 +3,13 @@
     <h1 class="text-center font-medium text-black text-3xl">Đăng nhập vào hệ thống</h1>
     <form class="mt-10">
       <div class="flex flex-col">
-        <label for="email" class="mb-5 inline-block text-gray-800 font-medium">Email:</label>
-        <input type="email" id="email" class="py-3 px-3 rounded-md border border-gray-400 outline-none"
+        <label for="email" class="mb-1 md:mb-3 inline-block text-gray-800 font-medium">Email:</label>
+        <input type="email" id="email" class="py-2 md:py-3 px-3 rounded-md border border-gray-400 outline-none"
           [(ngModel)]="email" [ngModelOptions]="{standalone: true}" />
       </div>
       <div class="flex flex-col mt-8">
-        <label for="password" class="mb-5 inline-block text-gray-800 font-medium">Password:</label>
-        <input type="password" id="password" class="py-3 px-3 rounded-md border border-gray-400 outline-none"
+        <label for="password" class="mb-1 md:mb-3 inline-block text-gray-800 font-medium">Password:</label>
+        <input type="password" id="password" class="py-2 md:py-3 px-3 rounded-md border border-gray-400 outline-none"
           [(ngModel)]="password" [ngModelOptions]="{standalone: true}" />
       </div>
       <div class="flex justify-center">
@@ -20,8 +20,8 @@
 </div>
 <div class="fixed bg-[#00000080] top-0 left-0 w-full h-screen z-10" *ngIf="visiblePopup" (click)="hidePopup()">
   <div
-    class="absolute z-[11] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] rounded-xl h-[160px] bg-white text-center">
-    <p class="mt-6 text-xl font-semibold px-6 text-center text-red-600">Hệ thống đang được người khác sử dụng</p>
+    class="absolute z-[11] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] rounded-xl py-6 bg-white text-center">
+    <p class=" text-xl font-semibold px-6 text-center text-red-500">{{popupText}}</p>
     <button class="px-6 py-2 mt-6 rounded-md bg-blue-400 text-white" (click)="hidePopup()">OK</button>
   </div>
 </div>

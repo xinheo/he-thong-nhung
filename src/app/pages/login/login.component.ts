@@ -12,6 +12,7 @@ export class LoginComponent {
   password: string = ''
 
   visiblePopup = false
+  popupText = 'Hệ thống đang được người khác sử dụng'
 
   constructor(private authService: AuthService,private router: Router){
     if(this.authService.isLoggedIn){
@@ -28,8 +29,9 @@ export class LoginComponent {
   }
 
   signIn(){
-    console.log(this.email, this.password,this.isValidEmail(this.email),this.isValidPassword(this.password))
     if(!this.isValidEmail(this.email) && !this.isValidPassword(this.password)){
+      this.popupText = "Tên đăng nhập hoặc mật khẩu sai"
+      this.visiblePopup = true
       return
     }
 
@@ -37,11 +39,11 @@ export class LoginComponent {
       if(value?.limitDevice){
         this.visiblePopup = true
       }
-      console.log("SIGNIN",value)
     })
   }
 
   hidePopup(){
+    this.popupText = 'Hệ thống đang được người khác sử dụng'
     this.visiblePopup = false
   }
 }

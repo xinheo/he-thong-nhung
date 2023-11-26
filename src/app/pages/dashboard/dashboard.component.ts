@@ -18,7 +18,6 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
   timeDry:any = null
   tempDry:any = null
-  tempDryMin:any = null
   sensorsValue: any = null
   progress = 0;
   timeCountDown = 0;
@@ -99,10 +98,6 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
   startDrySystem() {
     // console.log(this.timeDry, this.tempDry);
-    if(this.tempDry - this.tempDryMin < 0 ){
-      alert('Nhập nhiệt độ sai!');
-      return;
-    }
     if (!this.timeDry || !this.tempDry) {
       alert('Nhập nhiệt độ hoặc thời gian không đúng!');
       return;
