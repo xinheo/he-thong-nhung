@@ -15,6 +15,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   @ViewChild('audioFire') audioFire!: ElementRef
   @ViewChild('content') contentEl!: ElementRef
   isStartDrying = false
+  isAutoDrying = false
 
   timeDry:any = null
   tempDry:any = null
@@ -31,10 +32,11 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   visiblePopupFire = false
   visiblePopupSignOut= false
 
+
   constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService, private router: Router) {
 
     this.systemService.getStatus().subscribe((value) => {
-
+      // console.log(new Date().getTime())
       this.system = value
       if (value?.[1]?.value) {
         this.isStartDrying = true;
@@ -49,7 +51,6 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
     });
 
     this.sensorService.getStatus().subscribe((value) => {
-      console.log("dsadsadasd",value)
       this.sensorsValue = value
 
       if(value?.[6]?.value){
@@ -117,8 +118,8 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
       this.systemService.startSystem({ timeDry: time, tempDry: this.tempDry }).then(() => {
         this.isStartDrying = true;
-        this.tempDry = 0;
-        this.timeDry = 0;
+        this.tempDry = null;
+        this.timeDry = null;
         this.contentEl?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' })
       });
   }
@@ -134,6 +135,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
       }
       this.sensorService.updateSensors(data)
       this.isStartDrying = false
+      this.isAutoDrying = false
     })
   }
 
@@ -162,5 +164,18 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
   showPopupSignOut(){
     this.visiblePopupSignOut = true
+  }
+
+  changeToUnAuto(){
+    if(this.isStartDrying){
+      this.showPopup()
+      return
+    }
+
+    this.isAutoDrying = false
+  }
+
+  changeToAuto(){
+    this.isAutoDrying = true
   }
 }

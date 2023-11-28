@@ -13,39 +13,37 @@
   </div>
 
   <div class="w-full flex justify-center flex-col">
-    <div class="flex flex-col justify-center mt-20 md:mt-14 pt-0 pb-6 md:py-8 mx-6">
-      <div class="mx-6 flex flex-col md:flex-row items-center gap-10">
-        <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
-          <img src="/assets/images/high-temperature.png" alt="" class="w-10 h-10">
-          <span class="mb-3 inline-block text-lg font-medium">Nhập nhiệt độ sấy</span>
-          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
-            placeholder="Ví dụ: 70" [(ngModel)]="tempDry">
-          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
-        </div>
-        <!-- <div class="w-full md:w-1/4 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
-          <img src="/assets/images/low-temperature.png" alt="" class="w-10 h-10">
-          <span class="mb-3 inline-block text-lg font-medium">Nhập nhiệt độ sấy tối thiểu</span>
-          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
-            placeholder="Ví dụ: 50" [(ngModel)]="tempDryMin">
-          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
-        </div> -->
-        <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
-          <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10">
-          <span class="mb-3 inline-block text-lg font-medium">Nhập thời gian sấy</span>
-          <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
-            placeholder="Ví dụ: 10" [(ngModel)]="timeDry">
-          <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( phút )</span>
-        </div>
-      </div>
+    <div class="flex flex-col justify-center mt-10 md:mt-14 pt-0 pb-6 md:py-8 mx-6">
       <div class="mt-10 flex justify-center flex-col md:flex-row">
         <button class="px-10 py-3 rounded-md font-medium text-lg md:mr-10"
-          [ngClass]="!system?.[0]?.value ? 'bg-gray-100 text-black' : ' bg-blue-600 text-white'"
-          (click)="startDrySystem()">Tự
+          [ngClass]="!isAutoDrying ? 'bg-gray-100 text-black' : ' bg-blue-600 text-white'" (click)="changeToAuto()">Tự
           động</button>
         <button class="px-10 py-3 rounded-md  font-medium text-lg mt-10 md:mt-0"
-          [ngClass]="system?.[0]?.value ? 'bg-gray-100 text-black ' : 'bg-blue-600 text-white'"
-          (click)="showPopup()">Thủ
+          [ngClass]="isAutoDrying ? 'bg-gray-100 text-black ' : 'bg-blue-600 text-white'" (click)="changeToUnAuto()">Thủ
           công</button>
+      </div>
+      <div *ngIf="isAutoDrying">
+        <div class="mx-6 my-5 md:my-10 flex flex-col md:flex-row items-center gap-10">
+
+          <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
+            <img src="/assets/images/high-temperature.png" alt="" class="w-10 h-10">
+            <span class="mb-3 inline-block text-lg font-medium">Nhập nhiệt độ sấy</span>
+            <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
+              placeholder="Ví dụ: 70" [(ngModel)]="tempDry">
+            <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
+          </div>
+          <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
+            <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10">
+            <span class="mb-3 inline-block text-lg font-medium">Nhập thời gian sấy</span>
+            <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
+              placeholder="Ví dụ: 10" [(ngModel)]="timeDry">
+            <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( phút )</span>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <button class="px-10 py-3 rounded-md  font-medium text-lg mt-10 md:mt-0 bg-green-600 text-white"
+            [ngClass]="system?.[1]?.value ? 'hidden' : 'block'" (click)="startDrySystem()">Bắt đầu tự động</button>
+        </div>
       </div>
     </div>
     <div class="mt-5 rounded-xl mx-2 md:mx-10 mb-20" id="content">
@@ -69,7 +67,8 @@
           <h1 class="font-semibold text-black text-3xl text-center mt-5">Thông tin hệ thống hiện tại</h1>
           <div class="flex items-stretch gap-4 md:gap-10 justify-center flex-wrap mt-5 md:mt-0">
             <div
-              class="mb-0 md:my-6 p-4 w-[120px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+              class="mb-0 md:my-6 p-4 w-[120px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center"
+              *ngIf="system?.[1]?.value">
               <p class="text-sm md:text-lg text-black font-semibold text-center">Thời gian sấy còn lại</p>
               <img src="/assets/images/stopwatch.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4">
               <span class="text-xl text-black font-semibold">{{timeDisplay }}</span>
@@ -81,25 +80,12 @@
               <span class="text-xl text-black font-semibold">{{sensorsValue?.[5]?.value}} °C</span>
             </div>
             <div
-              class="mt-2 md:mt-0 p-4 w-[120px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+              class="mt-2 md:my-6 p-4 w-[120px] md:w-[250px]  rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
               <p class="text-sm md:text-lg text-black font-semibold text-center">Độ ẩm hiện tại</p>
               <img src="/assets/images/humidity.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4">
               <span class="text-xl text-black font-semibold">{{sensorsValue?.[4]?.value}} %</span>
             </div>
           </div>
-          <!-- <div class="flex justify-center mt-10  md:mt-10">
-            <label class="relative inline-flex items-center mb-5 cursor-pointer">
-              <input type="checkbox" [ngModel]="system?.[0]?.value" class="sr-only peer"
-                (ngModelChange)="changeIsAutoSystem($event)">
-              <div
-                class="w-16 md:w-20 h-8 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-8 md:peer-checked:after:translate-x-12 rtl:peer-checked:after:-translate-x-8 md:rtl:peer-checked:after:-translate-x-12 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-7 after:h-7 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-              </div>
-              <span class="ms-3 text-sm md:text-xl font-medium text-gray-900">Tự động</span>
-            </label>
-          </div> -->
-          <!-- <div class="ms-3 text-sm md:text-xl font-medium text-gray-900 text-center">
-            (Tắt tự động để tự điều khiển các động cơ)
-          </div> -->
           <div class="flex items-stretch justify-center gap-4 md:gap-20">
             <div class="my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
               <img src="/assets/images/cogwheel-setting.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4"
