@@ -28,6 +28,9 @@ export class SensorService {
       )
     );
   }
+  updateSensors(object: Record<string,boolean> ){
+    return this.db.object('sensor').update(object)
+  }
 
   updateSensor(key: string, value: any){
     const object: Record<string,any> = {}

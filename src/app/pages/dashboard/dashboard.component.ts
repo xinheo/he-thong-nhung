@@ -34,7 +34,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService, private router: Router) {
 
     this.systemService.getStatus().subscribe((value) => {
-      // console.log(value);
+
       this.system = value
       if (value?.[1]?.value) {
         this.isStartDrying = true;
@@ -49,8 +49,14 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
     });
 
     this.sensorService.getStatus().subscribe((value) => {
-      // console.log(value)
+      console.log("dsadsadasd",value)
       this.sensorsValue = value
+
+      if(value?.[6]?.value){
+        this.visiblePopupFire = true
+        this.audioFire.nativeElement.play()
+        this.endDrySystem()
+      }
     })
   }
 
@@ -65,7 +71,9 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
       const currentTime = new Date().getTime();
       const timeDifference = this.timeCountDown - currentTime;
       if (timeDifference <= 0) {
-        this.endDrySystem()
+        if(this.system?.[0]?.value){
+          this.endDrySystem()
+        }
         clearInterval(this.countdownInterval);
       } else {
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
@@ -83,16 +91,17 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   }
 
   changeDryDevice(value: any){
-    // console.log("changeDryDevice",value)
+    console.log("changeDryDevice",this.sensorsValue)
     this.sensorService.updateSensor('dryDevice',value).then()
   }
 
   changeFanDevice(value: any){
-    // console.log("changeFanDevice",value)
+    console.log("changeFanDevice",this.sensorsValue)
     this.sensorService.updateSensor('fanDevice',value).then()
   }
 
   changeIsAutoSystem(value:any){
+    console.log("value",value)
     this.systemService.updateIsAuto(value).then()
   }
 
@@ -108,6 +117,8 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
       this.systemService.startSystem({ timeDry: time, tempDry: this.tempDry }).then(() => {
         this.isStartDrying = true;
+        this.tempDry = 0;
+        this.timeDry = 0;
         this.contentEl?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' })
       });
   }
@@ -116,6 +127,12 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
     this.timeDryDisplay = 0
 
     this.systemService.endSystem().then(() => {
+      const data: Record<string,boolean> = {
+        fanDevice: false,
+        dryDevice:false,
+        warningFlame: false
+      }
+      this.sensorService.updateSensors(data)
       this.isStartDrying = false
     })
   }
