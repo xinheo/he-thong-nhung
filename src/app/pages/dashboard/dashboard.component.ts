@@ -32,6 +32,9 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   visiblePopupFire = false
   visiblePopupSignOut= false
 
+  visiblePopupWarning = false
+  warningDevice = false
+
 
   constructor(private systemService: SystemService,private sensorService: SensorService, private authService: AuthService, private router: Router) {
 
@@ -57,6 +60,18 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
         this.visiblePopupFire = true
         this.audioFire.nativeElement.play()
         this.endDrySystem()
+      }
+
+      if(value?.[7]?.value){
+        this.visiblePopupWarning = true
+      }else {
+        this.visiblePopupWarning = false
+      }
+
+      if(value?.[8]?.value){
+        this.warningDevice = true
+      }else {
+        this.warningDevice = false
       }
     })
   }
@@ -92,17 +107,17 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
   }
 
   changeDryDevice(value: any){
-    console.log("changeDryDevice",this.sensorsValue)
+    // console.log("changeDryDevice",this.sensorsValue)
     this.sensorService.updateSensor('dryDevice',value).then()
   }
 
   changeFanDevice(value: any){
-    console.log("changeFanDevice",this.sensorsValue)
+    // console.log("changeFanDevice",this.sensorsValue)
     this.sensorService.updateSensor('fanDevice',value).then()
   }
 
   changeIsAutoSystem(value:any){
-    console.log("value",value)
+    // console.log("value",value)
     this.systemService.updateIsAuto(value).then()
   }
 
@@ -173,6 +188,11 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
     }
 
     this.isAutoDrying = false
+  }
+
+
+  hidePopupWarning(){
+    this.visiblePopupWarning = false
   }
 
   changeToAuto(){

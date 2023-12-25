@@ -102,8 +102,10 @@
                   {{sensorsValue?.[1]?.value ? 'Bật' : 'Tắt'}}
                 </span>
               </label>
+              <p *ngIf="warningDevice" class="text-red-500 text-2xl font-semibold">Động cơ đang gặp vấn đề!</p>
             </div>
-            <div class="my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center">
+            <div class="my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center"
+              [ngClass]="visiblePopupWarning ? 'border-2 border-red-500' : ''">
               <img src="/assets/images/cooler.png" alt="" class="w-10 h-10 md:w-16 md:h-16  my-4 "
                 [class.animate-spin]="sensorsValue?.[2]?.value">
               <p class="text-sm md:text-lg text-black font-semibold my-2">Bật/tắt quạt</p>
@@ -118,6 +120,7 @@
                   {{sensorsValue?.[2]?.value ? 'Bật' : 'Tắt'}}
                 </span>
               </label>
+              <p *ngIf="visiblePopupWarning" class="text-red-500 text-2xl font-semibold">Quạt đang gặp vấn đề!</p>
             </div>
 
           </div>
@@ -175,3 +178,15 @@
 <audio controls class="hidden" #audioFire>
   <source src="/assets/images/audio-fire.mp3" type="audio/mpeg">
 </audio>
+
+<!--
+<div class="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)]" *ngIf="visiblePopupWarning"
+  (click)="hidePopupWarning()">
+  <div
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[300px] md:max-w-[400px] w-full rounded-md bg-white shadow-md py-5">
+    <p class="text-center mt-6 text-lg text-black font-semibold">Hệ thống của bạn đang gặp vấn đề?</p>
+    <div class="flex items-center gap-10 justify-center mt-4">
+      <button class="px-6 py-2 rounded-md bg-blue-500 text-white" (click)="hidePopupWarning()">Tôi đã biết</button>
+    </div>
+  </div>
+</div> -->
