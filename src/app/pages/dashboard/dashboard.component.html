@@ -102,7 +102,7 @@
                   {{sensorsValue?.[1]?.value ? 'Bật' : 'Tắt'}}
                 </span>
               </label>
-              <p *ngIf="warningDevice" class="text-red-500 text-2xl font-semibold">Động cơ đang gặp vấn đề!</p>
+              <!-- <p *ngIf="warningDevice" class="text-red-500 text-xl font-semibold">Động cơ đang gặp vấn đề!</p> -->
             </div>
             <div class="my-6 p-4 w-[150px] md:w-[250px] rounded-xl bg-blue-50 shadow-xl flex flex-col items-center"
               [ngClass]="visiblePopupWarning ? 'border-2 border-red-500' : ''">
@@ -120,7 +120,7 @@
                   {{sensorsValue?.[2]?.value ? 'Bật' : 'Tắt'}}
                 </span>
               </label>
-              <p *ngIf="visiblePopupWarning" class="text-red-500 text-2xl font-semibold">Quạt đang gặp vấn đề!</p>
+              <p *ngIf="visiblePopupWarning" class="text-red-500 text-xl font-semibold">Quạt đang gặp vấn đề!</p>
             </div>
 
           </div>
