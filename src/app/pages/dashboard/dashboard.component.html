@@ -25,19 +25,27 @@
       <div *ngIf="isAutoDrying">
         <div class="mx-6 my-5 md:my-10 flex flex-col md:flex-row items-center gap-10">
 
-          <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
+          <div class="w-full md:w-1/3 flex flex-col relative bg-blue-100 rounded-md p-4 shadow-md">
             <img src="/assets/images/high-temperature.png" alt="" class="w-10 h-10">
             <span class="mb-3 inline-block text-lg font-medium">Nhập nhiệt độ sấy</span>
             <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
               placeholder="Ví dụ: 70" [(ngModel)]="tempDry">
             <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( °C )</span>
           </div>
-          <div class="w-full md:w-1/2 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
+          <div class="w-full md:w-1/3 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
             <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10">
             <span class="mb-3 inline-block text-lg font-medium">Nhập thời gian sấy</span>
             <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
               placeholder="Ví dụ: 10" [(ngModel)]="timeDry">
             <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( phút )</span>
+          </div>
+
+          <div class="w-full md:w-1/3 flex flex-col relative bg-blue-100 rounded-md p-4  shadow-md">
+            <img src="/assets/images/humidity.png" alt="" class="w-10 h-10">
+            <span class="mb-3 inline-block text-lg font-medium">Nhập độ ẩm sấy</span>
+            <input type="number" class="outline-none border border-gray-400 rounded-md px-3 py-2 w-full"
+              placeholder="Ví dụ: 10" [(ngModel)]="humidityDry">
+            <span class="absolute top-[106px] right-8 text-sm font-normal text-gray-800">( % )</span>
           </div>
         </div>
         <div class="flex justify-center">
@@ -50,16 +58,22 @@
       <div class="w-full mb-10 flex flex-col md:flex-row">
         <div class="w-full md:w-1/3 md:pl-5 md:border-r md:border-gray-100" *ngIf="system?.[1]?.value">
           <h1 class="font-semibold text-black text-3xl text-center mt-5">Thông tin tiết lập</h1>
-          <div class="px-5 md:gap-10 flex md:block justify-between md:justify-start items-stretch">
-            <div class="my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center mr-5 md:mr-0">
+          <div class="px-5 md:gap-10 flex flex-wrap md:block justify-center md:justify-start items-stretch">
+            <div
+              class="w-[46%] md:w-full my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center mr-5 md:mr-0">
               <p class="text-sm md:text-lg text-black font-semibold text-center">Thời gian thiết lập</p>
               <img src="/assets/images/chronometer.png" alt="" class="w-10 h-10 md:w-16 md:h-16 my-4">
               <span class="text-xl text-black font-semibold">{{timeDryDisplay }} phút</span>
             </div>
-            <div class="my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center">
+            <div class="w-[46%] md:w-full my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center">
               <p class="text-sm md:text-lg text-black font-semibold text-center">Nhiệt độ thiết lập</p>
               <img src="/assets/images/cur-temperature.png" alt="" class="w-10 h-10 md:w-16 md:h-16 my-4">
               <span class="text-xl text-black font-semibold">{{system?.[2]?.value}} °C</span>
+            </div>
+            <div class="w-[46%] md:w-full my-6 p-4 rounded-xl bg-gray-100 shadow-xl flex flex-col items-center">
+              <p class="text-sm md:text-lg text-black font-semibold text-center">Độ ẩm thiết lập</p>
+              <img src="/assets/images/humidity.png" alt="" class="w-10 h-10 md:w-16 md:h-16 my-4">
+              <span class="text-xl text-black font-semibold">{{humidityDry}} %</span>
             </div>
           </div>
         </div>

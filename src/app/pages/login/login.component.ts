@@ -39,6 +39,9 @@ export class LoginComponent {
       if(value?.limitDevice){
         this.visiblePopup = true
       }
+    }).catch(() => {
+      this.popupText = "Tên đăng nhập hoặc mật khẩu sai"
+      this.visiblePopup = true
     })
   }
 
