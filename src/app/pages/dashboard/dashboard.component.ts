@@ -194,7 +194,8 @@ export class DashboardComponent implements OnDestroy, AfterViewInit{
 
 
   hidePopupWarning(){
-    this.visiblePopupWarning = false
+    this.visiblePopupWarning = false;
+    this.sensorService.updateSensor('fireWarning',false).then()
   }
 
   changeToAuto(){
